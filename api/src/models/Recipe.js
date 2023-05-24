@@ -30,5 +30,7 @@ module.exports = (sequelize) => {
     score: {
       type: DataTypes.FLOAT,
     }
+  },{
+    timestamps: false,
   });
 };
