@@ -4,19 +4,14 @@ const { Router } = require("express");
 
 const router = Router();
 
-const axios = require("axios");
 const { Recipe, Diet } = require("../db");
-const {
-  getAllRecipes,
-  getApiRecipesId,
-  getDbRecipesId,
-} = require("./recipe.js");
+const { getAllRecipes, getApiId, getDataBaseId } = require("./recipe.js");
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 //GET|/recipes
 
-router.get("/", async (req, res) => {
+router.get("/recipes", async (req, res) => {
   try {
     let { name } = req.query;
     const recipes = await getAllRecipes();
@@ -29,6 +24,7 @@ router.get("/", async (req, res) => {
       if (name) {
         let recipe = filtered.map((e) => {
           return {
+            id: e.id,
             image: e.image,
             name: e.name,
             diets:
@@ -38,7 +34,7 @@ router.get("/", async (req, res) => {
               typeof e.diets[0] === "string"
                 ? e.diets
                 : e.diets.map((e) => e.name),
-            id: e.id,
+            
             healthScore: e.healthScore,
           };
         });
@@ -48,13 +44,14 @@ router.get("/", async (req, res) => {
     } else {
       let recipe = recipes.map((e) => {
         return {
+          id: e.id,
           image: e.image,
           name: e.name,
           diets:
             typeof e.diets[0] === "string"
               ? e.diets
               : e.diets.map((e) => e.name),
-          id: e.id,
+          
           healthScore: e.healthScore,
         };
       });
@@ -67,12 +64,21 @@ router.get("/", async (req, res) => {
 
 //GET|/recipes/:idRecipes
 
-router.get("/recipes/:idRecipes", async (req, res) => {
-  try {
-    const { idRecipes } = req.params;
+router.get("/recipes/:id", async (req, res, next) => {
+  const { id } = req.params;
 
-    if (idRecipes.length ){}
-  } catch (error) {}
+  let validate = id.includes("-");
+  try {
+    if (validate) {
+      let recipeDb = await getDataBaseId(id);
+      return res.status(200).send(recipeDb);
+    } else {
+      let recipeApi = await getApiId(id);
+      return res.status(200).send(recipeApi);
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 // GET|/diets
@@ -97,6 +103,12 @@ router.get("/diets", async (req, res) => {
   });
   let dietTypes = await Diet.findAll();
   return res.send(dietTypes);
+});
+
+//POST|
+
+router.post("/recipes", async (req, res) => {
+  const { name, summary, healthScore, image, steps, diets } = req.body;
 });
 
 module.exports = router;

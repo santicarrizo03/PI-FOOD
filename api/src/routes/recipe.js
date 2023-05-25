@@ -40,27 +40,6 @@ const getDbRecipes = async () => {
   return recipeDb;
 };
 
-const getApiRecipesId = async (idRecipe) => {
-  return await axios.get(
-    `https://api.spoonacular.com/recipes/${parseInt(
-      idRecipe
-    )}/information?apiKey=${API_KEY}`
-  );
-};
-
-const getDbRecipesId = async function (id) {
-  let dbRecipesId = await Recipe.findByPk(id, {
-    include: {
-      model: Diet,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
-  });
-  return dbRecipesId;
-};
-
 const getAllRecipes = async () => {
   try {
     const apiRecipes = await getApiRecipes();
@@ -72,10 +51,45 @@ const getAllRecipes = async () => {
   }
 };
 
+const getApiId = async (id) => {
+  const apiId = await axios(
+    `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
+  );
+  const detail = apiId.data;
+
+  let recipeDetail = {
+    id,
+    name: detail.name,
+    summary: detail.summary,
+    healthScore: detail.healthScore,
+    image: detail.image,
+    diets: detail.diets,
+    steps: detail.analyzedInstructions[0]?.steps.map((e) => {
+      return {
+        number: e.number,
+        step: e.step,
+      };
+    }),
+  };
+  return recipeDetail;
+};
+
+const getDataBaseId = async (id) => {
+  return await Recipe.findByPk(id, {
+    include: {
+      model: Diet,
+      attributes: ['name'],
+      through: {
+        attributes: [],
+      }
+    }
+  })
+}
+
 module.exports = {
   getApiRecipes,
   getDbRecipes,
-  getApiRecipesId,
-  getDbRecipesId,
   getAllRecipes,
+  getApiId,
+  getDataBaseId
 };
