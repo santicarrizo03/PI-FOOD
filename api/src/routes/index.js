@@ -5,7 +5,7 @@ const { Router } = require("express");
 const router = Router();
 
 const { Recipe, Diet } = require("../db");
-const { getAllRecipes, getApiId, getDataBaseId } = require("./recipe.js");
+const { getAllRecipes, getApiId, getDataBaseId } = require("../controllers/index.js");
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
@@ -14,7 +14,9 @@ const { getAllRecipes, getApiId, getDataBaseId } = require("./recipe.js");
 router.get("/recipes", async (req, res) => {
   try {
     let { name } = req.query;
+
     const recipes = await getAllRecipes();
+    
     console.log(recipes);
     if (name) {
       let filtered = recipes.filter((e) =>
@@ -28,13 +30,10 @@ router.get("/recipes", async (req, res) => {
             image: e.image,
             name: e.name,
             diets:
-              // typeof e.diets[0] === "string"
-              //   ? e.diets
-              //   : e.diets.map((e) => e.name)
               typeof e.diets[0] === "string"
                 ? e.diets
                 : e.diets.map((e) => e.name),
-            
+
             healthScore: e.healthScore,
           };
         });
@@ -51,7 +50,7 @@ router.get("/recipes", async (req, res) => {
             typeof e.diets[0] === "string"
               ? e.diets
               : e.diets.map((e) => e.name),
-          
+
           healthScore: e.healthScore,
         };
       });
@@ -107,8 +106,43 @@ router.get("/diets", async (req, res) => {
 
 //POST|
 
-router.post("/recipes", async (req, res) => {
+router.post("/recipes", async (req, res, next) => {
   const { name, summary, healthScore, image, steps, diets } = req.body;
+  try {
+    const newRecipe = await Recipe.create({
+      name,
+      summary,
+      image,
+      healthScore,
+      steps,
+    });
+
+    let dietDb = await Diet.findAll({
+      where: {
+        name: diets,
+      },
+    });
+    newRecipe.addDiet(dietDb);
+
+    var aux = diets.pop();
+    var validate = types.includes(aux);
+
+    if (!validate) {
+      var noRepeat = Diet.findAll({
+        where: {
+          name: aux,
+        },
+      });
+      if (!noRepeat.length) {
+        const newDiet = await Diet.create({ name: aux });
+        newRecipe.addDiet(newDiet);
+        types.push(aux);
+      }
+    }
+    res.status(200).send(newRecipe);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
