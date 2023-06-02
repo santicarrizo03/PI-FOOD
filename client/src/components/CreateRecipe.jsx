@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { getDiets } from "../redux/actions";
 
 let validName = (str) => {
   let string = /^[a-zA-Z\s]+$/; //caracteres alfabeticos y espacios en blanco
@@ -41,6 +43,46 @@ const validateForm = (form) => {
 };
 
 export default function createRecipe() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const diets = useSelector((state) => state.diets);
+  const [errors, setErrors] = useState({});
+  const [input, setInput] = useState({
+    name: "",
+    image: "",
+    summary: "",
+    healhtScore: "",
+    steps: "",
+    diets: [],
+  });
+
+  useEffect(() => {
+    dispatch(getDiets());
+  }, [dispatch]);
+
+  function handleChange(e) {
+    e.preventDefault();
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+    setErrors(
+      validateForm({
+        ...input,
+        [e.target.name]: e.target.value,
+      })
+    );
+  }
+
+  function handleCheck(e) {
+    if (e.target.checked) {
+      setInput({
+        ...input,
+        diets: [...input.diets, e.target.value],
+      });
+    }
+  }
+
   return (
     <div>
       <div>
