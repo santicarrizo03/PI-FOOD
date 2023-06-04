@@ -23,3 +23,43 @@ export function getDiets() {
     });
   };
 }
+
+export function getRecipeByName(name){
+  return async function(dispatch){
+      try {
+          var json = await axios.get(`http://localhost:3001/recipes?name=${name}`);
+          return dispatch({
+              type: 'GET_RECIPE_BY_NAME',
+              payload: json.data
+          })    
+      } catch (error) {
+          console.error(error);
+      }   
+  }
+}
+
+//Filters
+export function filterRecipesByDiet(payload){
+  return {
+      type: 'FILTER_BY_DIET',
+      payload
+  }
+}
+export function orderByName(payload){
+  return {
+      type: 'ORDER_BY_NAME',
+      payload
+  }
+}
+export function orderByHealthScore(payload){
+  return {
+      type: 'ORDER_BY_HEALTHSCORE',
+      payload
+  }
+}
+export function filterCreated(payload){
+  return {
+      type: 'FILTER_BY_CREATED',
+      payload
+  }
+}

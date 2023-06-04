@@ -28,7 +28,7 @@ const validateForm = (form) => {
     errors.score = "Score valid between 1-100";
   }
   //HealthScore 1-100
-  if (form.healthScore < 1 || form.healhtScore > 100) {
+  if (form.healthScore < 1 || form.healthScore > 100) {
     errors.healthScore = "HealthScore valid between 1-100";
   }
   //Steps required
@@ -51,7 +51,7 @@ export default function createRecipe() {
     name: "",
     image: "",
     summary: "",
-    healhtScore: "",
+    healthScore: "",
     steps: "",
     diets: [],
   });
@@ -83,6 +83,26 @@ export default function createRecipe() {
     }
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (Object.keys(errors).length < 1) {
+      console.log(input);
+      dispatch(postRecipe(input));
+      alert("Recipe created");
+      setInput({
+        name: "",
+        image: "",
+        summary: "",
+        healthscore: "",
+        steps: "",
+        diets: [],
+      });
+    } else {
+      alert("There must be no errors in order to create the recipe");
+    }
+    history.push("/home");
+  }
+
   return (
     <div>
       <div>
@@ -93,10 +113,16 @@ export default function createRecipe() {
       </div>
 
       <div>
-        <form action="">
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             <label htmlFor="">Name: </label>
-            <input type="text" name="name" value={input.name}></input>
+            <input
+              type="text"
+              name="name"
+              value={input.name}
+              onChange={(e) => handleChange(e)}
+            />
+            {errors.name && <p>{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="">Summary: </label>
@@ -104,10 +130,44 @@ export default function createRecipe() {
               type="text"
               name="summary"
               value={input.summary}
+              onChange={(e) => handleChange(e)}
             ></textarea>
+            {errors.summary && <p>{errors.summary}</p>}
           </div>
           <div>
-            <label htmlFor=""></label>
+            <label htmlFor="">Image:</label>
+            <input
+              type="text"
+              value={input.image}
+              name="image"
+              placeholder="Enter the url of the image"
+              onChange={(e) => handleChange(e)}
+            />
+            {errors.image && <p>{errors.image}</p>}
+          </div>
+          <div>
+            <label htmlFor="">Health Score</label>
+            <input
+              type="number"
+              value={input.healthScore}
+              name="healthscore"
+              placeholder="Enter the health score from 1 to 100"
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Steps: </label>
+            <input
+              type="text"
+              value={input.steps}
+              name="steps"
+              placeholder="Enter the steps..."
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Diet Type:</label>
+            <input type="text" />
           </div>
         </form>
       </div>
