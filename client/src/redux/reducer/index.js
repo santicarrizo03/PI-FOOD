@@ -2,7 +2,7 @@ const initialState = {
   allRecipes: [],
   recipes: [],
   diets: [],
-  detail: [],
+  detail: []
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,6 +22,15 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         recipes: action.payload,
+      };
+    case "POST_RECIPE":
+      return {
+        ...state,
+      };
+    case "GET_DETAIL":
+      return {
+        ...state,
+        detail: action.payload,
       };
     //FILTERS
     case "FILTER_BY_DIET":
@@ -89,13 +98,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         recipes: orderedHealthArr,
       };
-      case 'FILTER_BY_CREATED':
-        const allRecipes2 = state.allRecipes;
-        const createdFilter = action.payload === 'created' ? allRecipes2.filter( e => e.createdInDb) : allRecipes2.filter( e => !e.createdInDb);
-        return {
-            ...state,
-            recipes: action.payload === 'all' ? allRecipes2 : createdFilter
-        }
+    case "FILTER_BY_CREATED":
+      const allRecipes2 = state.allRecipes;
+      const createdFilter =
+        action.payload === "created"
+          ? allRecipes2.filter((e) => e.createdInDb)
+          : allRecipes2.filter((e) => !e.createdInDb);
+      return {
+        ...state,
+        recipes: action.payload === "all" ? allRecipes2 : createdFilter,
+      };
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { getDiets } from "../redux/actions";
+import { getDiets, postRecipe } from "../redux/actions";
 
 let validName = (str) => {
   let string = /^[a-zA-Z\s]+$/; //caracteres alfabeticos y espacios en blanco
@@ -42,7 +42,7 @@ const validateForm = (form) => {
   return errors;
 };
 
-export default function createRecipe() {
+export default function CreateRecipe() {
   const dispatch = useDispatch();
   const history = useHistory();
   const diets = useSelector((state) => state.diets);
@@ -115,7 +115,7 @@ export default function createRecipe() {
       <div>
         <form onSubmit={(e) => handleSubmit(e)}>
           <div>
-            <label htmlFor="">Name: </label>
+            <label>Name: </label>
             <input
               type="text"
               name="name"
@@ -125,7 +125,7 @@ export default function createRecipe() {
             {errors.name && <p>{errors.name}</p>}
           </div>
           <div>
-            <label htmlFor="">Summary: </label>
+            <label>Summary: </label>
             <textarea
               type="text"
               name="summary"
@@ -135,7 +135,7 @@ export default function createRecipe() {
             {errors.summary && <p>{errors.summary}</p>}
           </div>
           <div>
-            <label htmlFor="">Image:</label>
+            <label>Image:</label>
             <input
               type="text"
               value={input.image}
@@ -146,17 +146,18 @@ export default function createRecipe() {
             {errors.image && <p>{errors.image}</p>}
           </div>
           <div>
-            <label htmlFor="">Health Score</label>
+            <label>Health Score</label>
             <input
               type="number"
               value={input.healthScore}
               name="healthscore"
               placeholder="Enter the health score from 1 to 100"
-              onChange={(e) => handleChange(e)}
+              onChange={e => handleChange(e)}
             />
+            {errors.healthScore && <p className='error'>{errors.healthScore}</p>}
           </div>
           <div>
-            <label htmlFor="">Steps: </label>
+            <label>Steps: </label>
             <input
               type="text"
               value={input.steps}
@@ -164,10 +165,31 @@ export default function createRecipe() {
               placeholder="Enter the steps..."
               onChange={(e) => handleChange(e)}
             />
+            {errors.steps && <p className='error'>{errors.steps}</p>}
           </div>
           <div>
-            <label htmlFor="">Diet Type:</label>
-            <input type="text" />
+            <label>Diet Type:</label>
+            {diets &&
+              diets.map((e, index) => {
+                return (
+                  <label>
+                    {e.name}
+                    <input
+                      key={index}
+                      type="checkbox"
+                      value={e.name}
+                      onChange={(e) => handleCheck(e)}
+                    />
+                  </label>
+                );
+              })}
+              {errors.diets && <p className='error'>{errors.diets}</p>}
+                    <ul>
+                    <li>
+                        {<p>Added:</p>}{input.diets.map((e, index)=> <div key={index}>{e + ", "}</div>)}
+                    </li>
+                </ul>
+                <button disabled={Object.keys(errors).length > 0 || input.name === ''} type="submit">Create Recipe</button>
           </div>
         </form>
       </div>
