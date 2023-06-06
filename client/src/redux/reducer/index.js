@@ -2,7 +2,7 @@ const initialState = {
   allRecipes: [],
   recipes: [],
   diets: [],
-  detail: []
+  detail: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -31,6 +31,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         detail: action.payload,
+      };
+    case 'RESET_DETAIL':
+      return {
+        ...state,
+        detail: [],
       };
     //FILTERS
     case "FILTER_BY_DIET":

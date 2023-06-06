@@ -13,9 +13,8 @@ function App() {
           <Route exact path="/" component={LandingPage} />
           <Route path="/home" component={Home}/>
           <Route path="/recipe" component={CreateRecipe}/>
-          <Route path="/recipes/:id" component={Detail}/>
+          <Route path="/recipes/:id" component={Detail} />
         </Switch>
-        <h1>Henry Food</h1>
       </div>
     </BrowserRouter>
   );

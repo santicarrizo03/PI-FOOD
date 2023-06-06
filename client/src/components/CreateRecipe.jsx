@@ -23,19 +23,19 @@ const validateForm = (form) => {
   if (!form.summary) {
     errors.summary = "Summary required";
   }
-  //Score 1-100
-  if (form.score < 1 || form.score > 100) {
-    errors.score = "Score valid between 1-100";
+  //image
+  if(!form.image){
+    errors.image = "Image required";
   }
   //HealthScore 1-100
-  if (form.healthScore < 1 || form.healthScore > 100) {
-    errors.healthScore = "HealthScore valid between 1-100";
+  if (!form.healthscore||form.healthscore < 1 || form.healthscore > 100) {
+    errors.healthscore = "HealthScore valid between 1-100";
   }
   //Steps required
   if (!form.steps) {
     errors.steps = "Steps required";
   }
-  if (!form.diets.length) {
+  if (!form.diets || form.diets.length === 0) {
     errors.diets = "Select at least one diet";
   }
 
@@ -51,7 +51,7 @@ export default function CreateRecipe() {
     name: "",
     image: "",
     summary: "",
-    healthScore: "",
+    healthscore: "",
     steps: "",
     diets: [],
   });
@@ -154,7 +154,7 @@ export default function CreateRecipe() {
               placeholder="Enter the health score from 1 to 100"
               onChange={(e) => handleChange(e)}
             />
-            {errors.healthScore && <p className='error'>{errors.healthScore}</p>}
+            {errors.healthscore && <p className='error'>{errors.healthscore}</p>}
           </div>
           <div>
             <label>Steps: </label>
@@ -189,7 +189,7 @@ export default function CreateRecipe() {
                         {<p>Added:</p>}{input.diets.map((e, index)=> <div key={index}>{e + ", "}</div>)}
                     </li>
                 </ul>
-                <button disabled={Object.keys(errors).length > 0 || input.name === ''} type="submit">Create Recipe</button>
+                <input type="submit" value="Crear Actividad" disabled={!input.name.trim().length > 0} />
           </div>
         </form>
       </div>

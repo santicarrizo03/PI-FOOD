@@ -1,0 +1,33 @@
+body {
+  background-color: beige;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  margin: 0%;
+}
+
+.principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.boton-inicio {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 2px solid #000;
+  color: #000;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.boton-inicio:hover {
+  background-color: #000;
+  color: #fff;
+}

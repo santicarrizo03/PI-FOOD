@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Recipe from "./Recipe";
 import Paginado from "./Navbar";
 import SearchBar from "./SearchBar";
+import "./style/home.css";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -51,48 +52,55 @@ export default function Home() {
 
   function handleFilterByDiet(e) {
     e.preventDefault();
-    dispatch(filterRecipesByDiet(e.target.value));
     setCurrentPage(1);
+    dispatch(filterRecipesByDiet(e.target.value));
     setOrder(`Ordenado ${e.target.value}`);
   }
 
   function handlefilterCreated(e) {
     e.preventDefault();
-    dispatch(filterCreated(e.target.value));
     setCurrentPage(1);
+    dispatch(filterCreated(e.target.value));
     setOrder(`Ordenado ${e.target.value}`);
   }
 
   function handleOrderByName(e) {
     e.preventDefault();
-    dispatch(orderByName(e.target.value));
     setCurrentPage(1);
+    dispatch(orderByName(e.target.value));
     setOrder(`Ordenado ${e.target.value}`);
   }
 
   function handleOrderByHealthScore(e) {
     e.preventDefault();
-    dispatch(orderByHealthScore(e.target.value));
     setCurrentPage(1);
+    dispatch(orderByHealthScore(e.target.value));
     setOrder(`Ordenado ${e.target.value}`);
   }
 
   function handleClick(e){
     e.preventDefault();
+    setCurrentPage(1)
     dispatch(getRecipes());
     dispatch(getDiets());
+    
 }
+  function search(e){
+    e.preventDefault();
+    setCurrentPage(1)
+  }
 
   return (
     <div>
-      <div>
+      <div className="home-boton">
         <Link to="/">
           <button>Landing Page</button>
         </Link>
-        <h1>Food Proyect</h1>
+        <h1 className="title">Food Proyect</h1>
         <Link to="/recipe">
-          <button>Create Recipe</button>
+          <button className="create-boton">Create Recipe</button>
         </Link>
+        
       </div>
       <button onClick={e=>handleClick(e)}>Refresh</button>
       <div>
@@ -132,7 +140,8 @@ export default function Home() {
         setRecipesPerPage={setRecipesPerPage}
         order={order}
       />
-      <SearchBar></SearchBar>
+      <div onChange={(e) => search(e)}><SearchBar/></div>
+      
       <div>
         {currentRecipes?.map((e) => {
           return (

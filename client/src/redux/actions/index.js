@@ -40,35 +40,41 @@ export function getRecipeByName(name){
 
 export function postRecipe(payload){
   return async function(dispatch){
-      const response = await axios.post("http://localhost:3001/recipes", payload);
+      const json = await axios.post("http://localhost:3001/recipes", payload);
       
-      return response;
+      return json;
   }
 }
-// export function getDetail(id){
-//   return async function(dispatch){
-//       try {
-//           const json = await axios.get(`http://localhost:3001/recipes/${id}`);
-//           return dispatch({
-//               type: 'GET_DETAIL',
-//               payload: json.data
-//           })
-//       } catch (error) {
-//           console.error(error);
-//       }
-//   }
-// }
-
 export function getDetail(id){
   return async function(dispatch){
-    let json = await axios(`http://localhost:3001/recipes/${id}`)
-    return dispatch({
-      type: 'GET_DETAIL',
-      payload: json.data
-    })
+      try {
+          let json = await axios.get(`http://localhost:3001/recipes/${id}`);
+          return dispatch({
+              type: 'GET_DETAIL',
+              payload: json.data
+          })
+      } catch (error) {
+          console.error(error);
+      }
   }
 }
+export function resetDetail(){
+  return (dispatch => {
+    dispatch({
+      type: 'RESET_DETAIL',
+    })
+  })
+}
 
+// export function getDetail(id){
+//   return async function(dispatch){
+//     let json = await axios(`http://localhost:3001/recipes/${id}`)
+//     return dispatch({
+//       type: 'GET_DETAIL',
+//       payload: json.data
+//     })
+//   }
+// }
 //Filters
 export function filterRecipesByDiet(payload){
   return {
