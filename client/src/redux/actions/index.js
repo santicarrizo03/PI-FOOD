@@ -39,11 +39,17 @@ export function getRecipeByName(name){
 }
 
 export function postRecipe(payload){
-  return async function(dispatch){
-      const json = await axios.post("http://localhost:3001/recipes", payload);
-      
-      return json;
-  }
+  return async function(dispatch) {
+    try {
+        var json = await axios.post(`http://localhost:3001/recipes`, payload);
+        return dispatch({
+            type: "CREATE_RECIPE",
+            payload: json,
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
 }
 export function getDetail(id){
   return async function(dispatch){

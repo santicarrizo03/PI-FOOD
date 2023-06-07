@@ -102,7 +102,7 @@ export default function CreateRecipe() {
     }
     history.push("/home");
   }
-
+  console.log(Object.keys(errors).length);
   return (
     <div>
       <div>
@@ -184,11 +184,7 @@ export default function CreateRecipe() {
                 );
               })}
               {errors.diets && <p className='error'>{errors.diets}</p>}
-                    <ul>
-                    <li>
-                        {<p>Added:</p>}{input.diets.map((e, index)=> <div key={index}>{e + ", "}</div>)}
-                    </li>
-                </ul>
+                    
                 <input type="submit" value="Crear Actividad" disabled={!input.name.trim().length > 0} />
           </div>
         </form>
