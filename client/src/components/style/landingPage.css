@@ -8,6 +8,10 @@ body {
 }
 
 .principal {
+  background-image: url("./img/cafe.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   display: flex;
   justify-content: center;
   align-items: center;

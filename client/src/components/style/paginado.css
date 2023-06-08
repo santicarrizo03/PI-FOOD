@@ -1,0 +1,35 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  padding: 5px 5px 5px 5px;
+}
+
+.pagination ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination button {
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 5px;
+  font-size: 16px;
+}
+
+.pagination button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  font-weight: bold;
+}

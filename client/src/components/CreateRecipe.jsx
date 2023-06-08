@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { getDiets, postRecipe } from "../redux/actions";
+import "./style/createRecipe.css"
 
 let validName = (str) => {
   let string = /^[a-zA-Z\s]+$/; //caracteres alfabeticos y espacios en blanco
@@ -84,7 +85,8 @@ export default function CreateRecipe() {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); // evita que el form se envie autom y se recargue la pag
+    setErrors(validateForm(input)); // se valida el form
     if (Object.keys(errors).length < 1) {
       console.log(input);
       dispatch(postRecipe(input));
@@ -104,17 +106,17 @@ export default function CreateRecipe() {
   }
   console.log(Object.keys(errors).length);
   return (
-    <div>
-      <div>
+    <div className="create-recipe-container">
+      <div className="create-recipe-header">
         <Link to="/home">
-          <button>Home</button>
+          <button className="create-recipe-button">Home</button>
         </Link>
-        <h1>Create Recipe</h1>
+        <h1 className="create-recipe-title">Create Recipe</h1>
       </div>
 
-      <div>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div>
+      <div className="create-recipe-form">
+        <form onSubmit={e => handleSubmit(e)}>
+          <div className="form-group">
             <label>Name: </label>
             <input
               type="text"
@@ -124,7 +126,7 @@ export default function CreateRecipe() {
             />
             {errors.name && <p>{errors.name}</p>}
           </div>
-          <div>
+          <div className="form-group">
             <label>Summary: </label>
             <textarea
               type="text"
@@ -134,7 +136,7 @@ export default function CreateRecipe() {
             ></textarea>
             {errors.summary && <p>{errors.summary}</p>}
           </div>
-          <div>
+          <div className="form-group">
             <label>Image:</label>
             <input
               type="text"
@@ -145,7 +147,7 @@ export default function CreateRecipe() {
             />
             {errors.image && <p>{errors.image}</p>}
           </div>
-          <div>
+          <div className="form-group">
             <label>Health Score</label>
             <input
               type="text"
@@ -156,7 +158,7 @@ export default function CreateRecipe() {
             />
             {errors.healthscore && <p className='error'>{errors.healthscore}</p>}
           </div>
-          <div>
+          <div className="form-group">
             <label>Steps: </label>
             <input
               type="text"
@@ -167,7 +169,7 @@ export default function CreateRecipe() {
             />
             {errors.steps && <p className='error'>{errors.steps}</p>}
           </div>
-          <div>
+          <div className="form-group">
             <label>Diet Type:</label>
             {diets &&
               diets.map((e, index) => {
@@ -188,7 +190,9 @@ export default function CreateRecipe() {
                 <input type="submit" value="Crear Actividad" disabled={!input.name.trim().length > 0} />
           </div>
         </form>
+        
       </div>
+      
     </div>
   );
 }

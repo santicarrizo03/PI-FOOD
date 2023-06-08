@@ -1,0 +1,38 @@
+.create-recipe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-recipe-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.create-recipe-title {
+  margin-left: 20px;
+}
+
+.create-recipe-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-recipe-button:hover {
+  background-color: #555;
+}
+
+.create-recipe-form {
+  width: 400px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}

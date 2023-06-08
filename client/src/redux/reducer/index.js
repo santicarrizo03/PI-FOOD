@@ -5,9 +5,9 @@ const initialState = {
   detail: {},
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {// toma el estado actual de la aplicación y una acción, y devuelve un nuevo estado actualizado según el tipo de acción.
   switch (action.type) {
-    case "GET_RECIPES":
+    case "GET_RECIPES": // actualiza la lista de recetas y guarda una copia para poder filtrar despues
       return {
         ...state,
         recipes: action.payload,
@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         diets: action.payload,
       };
-    case "GET_RECIPE_BY_NAME":
+    case "GET_RECIPE_BY_NAME": // actualiza la lista de recetas basada en un filtro por nombre
       return {
         ...state,
         recipes: action.payload,
@@ -104,15 +104,18 @@ export default function reducer(state = initialState, action) {
         recipes: orderedHealthArr,
       };
     case "FILTER_BY_CREATED":
-      const allRecipes2 = state.allRecipes;
-      const createdFilter =
-        action.payload === "created"
-          ? allRecipes2.filter((e) => e.createdInDb)
-          : allRecipes2.filter((e) => !e.createdInDb);
-      return {
-        ...state,
-        recipes: action.payload === "all" ? allRecipes2 : createdFilter,
-      };
+      let reci=[]
+      if(action.payload ==='all'){
+        reci = state.allRecipes
+      }else if(action.payload ==='db'){
+        reci = state.allRecipes.filter(p=> p.createInDb)
+      }else if(action.payload ==='api'){
+        reci = state.allRecipes.filter(p=> !p.createInDb)
+      }
+      return{
+          ...state,
+          recipes: reci
+      }
     default:
       return state;
   }

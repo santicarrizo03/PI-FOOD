@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./style/recipe.css"
 
 export default function Recipe({ name, image, diets, id }) {
   return (

@@ -1,2 +1,75 @@
 
+.home-boton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
 
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.create-boton {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-boton:hover {
+  background-color: #555;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+.logo {
+  height: 3rem;
+  padding: 2rem;
+  margin: 0.1rem;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+}
+
+.filter-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.search-bar {
+  margin-left: auto;
+}
+.filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filter-select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.filter-select:focus {
+  outline: none;
+}
+
+.filter-select option {
+  font-size: 14px;
+}

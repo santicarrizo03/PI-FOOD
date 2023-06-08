@@ -3,8 +3,8 @@ import axios from "axios";
 export function getRecipes() {
   return async function (dispatch) {
     try {
-      const json = await axios("http://localhost:3001/recipes");
-      return dispatch({
+      const json = await axios("http://localhost:3001/recipes"); // realizo una peticion a la API para obtener todas las recetas
+      return dispatch({//se utiliza para enviar esta acción al store, para que los reducers correspondientes puedan actualizar el estado global de la aplicación
         type: "GET_RECIPES",
         payload: json.data,
       });
@@ -46,8 +46,8 @@ export function postRecipe(payload){
             type: "CREATE_RECIPE",
             payload: json,
         })
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 }
 }
@@ -72,15 +72,7 @@ export function resetDetail(){
   })
 }
 
-// export function getDetail(id){
-//   return async function(dispatch){
-//     let json = await axios(`http://localhost:3001/recipes/${id}`)
-//     return dispatch({
-//       type: 'GET_DETAIL',
-//       payload: json.data
-//     })
-//   }
-// }
+
 //Filters
 export function filterRecipesByDiet(payload){
   return {

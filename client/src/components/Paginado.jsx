@@ -1,4 +1,5 @@
 import React from "react";
+import "./style/paginado.css"
 
 export default function Paginado({
   recipesPerPage,
@@ -14,7 +15,7 @@ export default function Paginado({
     pageNumbers.push(i);
   }
   return (
-    <nav>
+    <nav className="pagination">
       <ul>
         <li onClick={previousPage}>
           <button disabled={currentPage <= 1}>Prev</button>

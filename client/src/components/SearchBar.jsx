@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getRecipeByName } from "../redux/actions";
+import "./style/searchbar.css"
 
 export default function SearchBar() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div>
+    <div className="search-form">
       <input
         type="text"
         value={name}
