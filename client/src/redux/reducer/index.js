@@ -5,7 +5,8 @@ const initialState = {
   detail: {},
 };
 
-export default function reducer(state = initialState, action) {// toma el estado actual de la aplicación y una acción, y devuelve un nuevo estado actualizado según el tipo de acción.
+export default function reducer(state = initialState, action) {
+  // toma el estado actual de la aplicación y una acción, y devuelve un nuevo estado actualizado según el tipo de acción.
   switch (action.type) {
     case "GET_RECIPES": // actualiza la lista de recetas y guarda una copia para poder filtrar despues
       return {
@@ -13,7 +14,7 @@ export default function reducer(state = initialState, action) {// toma el estado
         recipes: action.payload,
         allRecipes: action.payload,
       };
-    case "GET_DIETS":
+    case "GET_DIETS": //lista de dietas y guarda una copia 
       return {
         ...state,
         diets: action.payload,
@@ -32,13 +33,13 @@ export default function reducer(state = initialState, action) {// toma el estado
         ...state,
         detail: action.payload,
       };
-    case 'RESET_DETAIL':
+    case "RESET_DETAIL":
       return {
         ...state,
         detail: [],
       };
     //FILTERS
-    case "FILTER_BY_DIET":
+    case "FILTER_BY_DIET": // filtra por dieta
       const allRecipes = state.allRecipes;
       const recipesFiltered =
         action.payload === "all"
@@ -103,19 +104,22 @@ export default function reducer(state = initialState, action) {// toma el estado
         ...state,
         recipes: orderedHealthArr,
       };
+
     case "FILTER_BY_CREATED":
-      let reci=[]
-      if(action.payload ==='all'){
-        reci = state.allRecipes
-      }else if(action.payload ==='db'){
-        reci = state.allRecipes.filter(p=> p.createInDb)
-      }else if(action.payload ==='api'){
-        reci = state.allRecipes.filter(p=> !p.createInDb)
-      }
-      return{
-          ...state,
-          recipes: reci
-      }
+      const allReci = state.allRecipes;
+      const recipesFilter =
+        action.payload === "all"
+          ? allReci
+          : allReci.filter((e) =>
+              e.diets
+                .toString()
+                .toLowerCase()
+                .includes(action.payload.toLowerCase())
+            );
+      return {
+        ...state,
+        recipes: recipesFilter,
+      };
     default:
       return state;
   }

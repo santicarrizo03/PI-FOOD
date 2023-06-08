@@ -26,7 +26,10 @@ export default function Detail(props) {
           <h1>Name: {myRecipe[0].name}</h1>
 
           <img src={myRecipe[0].image} alt="" />
+          
+          <strong>healthscore</strong>
           <p>{myRecipe[0].healthscore}</p>
+          
           <div className="summary">
             <strong>Summary</strong>
             <p dangerouslySetInnerHTML={{ __html: myRecipe[0].summary }} />
@@ -47,7 +50,7 @@ export default function Detail(props) {
             </p>
             <ul>
               {Array.isArray(myRecipe[0].steps)
-                ? myRecipe[0].steps.map((e, index) => (
+                ? myRecipe[0].steps.map((e) => (
                     <li>{e.number + ". " + e.step}</li>
                   ))
                 : myRecipe[0].steps}

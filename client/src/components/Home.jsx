@@ -18,11 +18,11 @@ import logo from "./style/img/sarten.png"
 
 export default function Home() {
   const dispatch = useDispatch();//despachar acciones a los reducers para actualizar el estado global de la aplicacion
-  const allRecipes = useSelector((state) => state.recipes);
-  const allDiets = useSelector((state) => state.diets);
+  const allRecipes = useSelector((state) => state.recipes); //me permite obtener la lista de recetas
+  const allDiets = useSelector((state) => state.diets); // obtengo la lista de dietas
   const [currentPage, setCurrentPage] = useState(1);
-  const [recipesPerPage, setRecipesPerPage] = useState(9);
-  const [order, setOrder] = useState("");
+  const [recipesPerPage, setRecipesPerPage] = useState(9); // recetas por pagina
+  const [order, setOrder] = useState(""); // estado local pra luego actualizar
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const currentRecipes = allRecipes.slice(
@@ -30,17 +30,17 @@ export default function Home() {
     indexOfLastRecipe
   );
 
-  const paginado = (pageNumber) => {
+  const paginado = (pageNumber) => { //mostrar los lementos acordes a la interfaz del usuario
     setCurrentPage(pageNumber);
   };
 
-  const previousPage = () => {
+  const previousPage = () => { // ir a la pag anterior y verifica que no se la 1er pag
     if (currentPage !== 1) {
       setCurrentPage((currentPage) => currentPage - 1);
     }
   };
 
-  const nextPage = () => {
+  const nextPage = () => { // ir a pag sig y verifica que nop sea la ult
     if (currentPage !== Math.ceil(allRecipes.length / recipesPerPage)) {
       setCurrentPage((currentPage) => currentPage + 1);
     }
@@ -53,8 +53,8 @@ export default function Home() {
 
   function handleFilterByDiet(e) {
     e.preventDefault();
-    setCurrentPage(1);
-    dispatch(filterRecipesByDiet(e.target.value));
+    setCurrentPage(1); // establece la pag actual en 1
+    dispatch(filterRecipesByDiet(e.target.value)); // me trae la accion del filter
     setOrder(`Ordenado ${e.target.value}`);
   }
 
@@ -76,7 +76,7 @@ export default function Home() {
     e.preventDefault();
     setCurrentPage(1);
     dispatch(orderByHealthScore(e.target.value));
-    setOrder(`Ordenado ${e.target.value}`);
+    setOrder(e.target.value);
   }
 
   function search(e){
@@ -105,8 +105,8 @@ export default function Home() {
         </select>
         <select className="filter-select" onChange={(e) => handleOrderByHealthScore(e)}>
           <option>Order by Health Score</option>
-          <option value="good">Major to minor</option>
-          <option value="bad">minor to major</option>
+          <option value="bad">Major to minor</option>
+          <option value="good">minor to major</option>
         </select>
         <select className="filter-select" onChange={(e) => handlefilterCreated(e)}>
           <option value="all">All</option>
